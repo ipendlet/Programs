@@ -6,7 +6,7 @@ import argparse
 import numpy as np
 import pybel as pb
 #import openbabel
-
+##smallchange
 #### variables ####
 #operating directory#
 directory= '/export/zimmerman/ipendlet/4-CobaltChemistry/2_Combinations/4-OptOctahedral_H2/zzPreFinalXYZSTRUCTURES_needconfirMzzz/'
