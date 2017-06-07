@@ -1,0 +1,20 @@
+#!/bin/bash
+#  makes xyz into ordered list
+
+echo " creating input structures from xyz files"
+
+list=`ls *.xyz`
+
+i=0
+
+rm data/*.basis
+for item in $list
+do
+
+  echo " $item --> data/$i.basis"
+  cp $item data/$i.basis
+  let i=i+1
+  
+
+done
+

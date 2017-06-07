@@ -1,0 +1,34 @@
+# This text matches exactly with baron's old code
+#
+# General information required for all string jobs
+#
+------------- General Info ---------------------
+initial.xyz # name of initial (old) string. A file with series of xyzs
+QCHEM     	 # software :(QCHEM, JAGUAR, G03, TURBOMOL)
+LST	 	 #interpolation method (LST or CART)
+------------------------------------------------
+
+# Needed only if QCHEM is the software used
+# 
+------------- QCHEM Info ---------------------
+qcoptions.in # file containing typical input file, coords not important
+/Users/paulzim/scratch/         # full path for main scratch dir; end with "/" 
+GSM_xlst        # name of run , name of scratch dir of this run
+----------------------------------------------
+
+
+# If you need to change any defaults add them here
+# The order of things dont matter here
+# If not required to change default, then delete from below
+------------ Default Info -------------------
+MAX_OPT_ITERS           10  # maximum number of iterations
+CONV_TOL           	0.6 # perpendicular gradient for convergence
+ADD_NODE_TOL		0.12
+CHARGE                  0     # Charge on structure
+SPIN                    1     # spin: singlet or triplet?
+SCALING			9
+NUM_INTERP		11
+nnmax			12
+----------------------------------------------
+
+

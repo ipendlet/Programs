@@ -1,0 +1,14 @@
+#PBS -t 
+#PBS -l nodes=1:ppn=4 -l pmem=2000MB -l walltime=90:00:00
+#PBS -e /export/zimmerman/ipendlet/Programs/ipendlet/snippets/branches/sp_chem -o /export/zimmerman/ipendlet/Programs/ipendlet/snippets/branches/sp_chem
+#PBS -q zimmerman -N optsp_chem.qsh
+ 
+ID=`printf "%0*d\n" 3 ${PBS_ARRAYID}`
+ 
+source /export/zimmerman/paulzim/qchem/qchemjan42013c/paul.set.local
+ 
+cd $PBS_O_WORKDIR
+name=`ls q$ID*.inp`
+qchem -np 4 $name $name.out
+ 
+rm $QCSCRATCH

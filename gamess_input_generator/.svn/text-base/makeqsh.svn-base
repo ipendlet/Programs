@@ -1,0 +1,28 @@
+#!/bin/bash
+
+echo "setting up gamesinp.qsh script "
+file=gamesinp.qsh
+
+echo "#PBS -t " >> $file
+echo "#PBS -l nodes=1:ppn=4 -l pmem=2000MB -l walltime=90:00:00" >> $file
+echo "#PBS -e `pwd`/ -o `pwd`/" >> $file
+echo "#PBS -q zimmerman -N" "gms"${PWD##*/}".qsh"  >> $file
+echo " " >> $file
+echo 'ID=`printf "%0*d\n" 3 ${PBS_ARRAYID}`' >> $file
+echo 'cd $PBS_O_WORKDIR' >> $file
+echo " " >> $file
+echo 'name=`ls q$ID.*.inp`' >> $file
+echo 'echo $name' >> $file
+echo " " >> $file
+echo 'cat $PBS_NODEFILE > tmp.machines.$ID' >> $file
+echo 'export PBS_NODEFILE=tmp.machines.$ID' >> $file
+echo " " >> $file
+echo 'export PBS_JOBID1=`echo "$PBS_JOBID" | tr -d "[]"`' >> $file
+echo 'echo "JOBID1: $PBS_JOBID1"' >> $file
+echo 'ln -s $PBSTMPDIR /tmp/$PBS_JOBID1' >> $file
+echo " " >> $file
+echo '~/bin/rungms $name 4 > $name.out' >> $file
+echo " " >> $file
+echo 'rm tmp.machines.$ID' >> $file
+
+

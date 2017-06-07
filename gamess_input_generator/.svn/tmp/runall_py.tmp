@@ -1,0 +1,22 @@
+#! /bin/bash
+module load Python
+module load Babel
+
+list=`ls *.xyz`
+
+for item in $list
+do 
+python make_games_input.py -ECP 0 $item 
+done
+
+wait
+
+listxyz=`ls *.inp`
+i=1
+for item in $listxyz
+do
+  ID=`printf "%0*d\n" 3 $i`
+  mv $item "q$ID.$item"
+  echo "file $i: $item --> q$ID.$item"
+  let i=i+1
+done

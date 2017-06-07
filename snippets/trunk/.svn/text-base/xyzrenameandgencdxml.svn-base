@@ -1,0 +1,12 @@
+#!/bin/bash
+
+#`set="stringfile*"
+set=`ls stringfile*`
+
+for item in $set
+do
+    redo=$item.xyz
+    mv $item $redo
+    python pxyzforgsm.py $redo -pages_num 6
+    mv ElementaryStep_1.cdxml $redo.cdxml
+done

@@ -1,0 +1,23 @@
+#!/bin/bash
+
+list=`ls -r ~/Monica/`
+
+
+#echo $list
+for item in $list
+do
+#	cp ~/Monica/$item/progress.log ~/Monica/doublecheck/$item.log
+	pwd
+	#cd  ~/Monica/
+#	listtsq=`ls ~/Monica/$item/scratch/ | grep tsq*`
+#	listdir=`ls ~/Monica/$item/scratch/tsq0???.xyz`
+#	echo $listtsq
+	listtsq=`ls ~/Monica/$item/scratch/ | grep tsq*`
+#	echo $listdir
+	for item2 in $listtsq
+	do
+		#cd ~/Monica/doublecheck/
+		#cp $item2 $item.$item2.xyz
+		cp ~/Monica/$item/scratch/$item2 ~/Monica/doublecheck/$item.$item2.xyz
+	done
+done

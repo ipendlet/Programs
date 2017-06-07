@@ -1,0 +1,23 @@
+ $rem
+ JOBTYPE FORCE
+ EXCHANGE omegaB97X-D
+! UNRESTRICTED TRUE
+ SCF_ALGORITHM diis
+ SCF_MAX_CYCLES 150
+ BASIS gen
+ ECP LANL2DZ
+
+ LOBA 12
+ print_orbitals 2
+
+
+scf_convergence 6
+
+ SYM_IGNORE TRUE
+ SYMMETRY   FALSE
+
+molden_format true
+ $end
+
+$molecule
+0 1
