@@ -1,0 +1,4 @@
+q013.GSM_C-C_stuff.tsq0007.xyz.inp.out -->  Total Entropy: 276.139213187 cal/mol.K Original Entropy: 306.837 cal/mol.K
+q001.pentaf.redo.8.3.3.activated.inp.out -->  Total Entropy: 190.071213187 cal/mol.K Original Entropy: 211.623 cal/mol.K
+q001.Pka10_Ni_DEPP2^0_1.xyz.inp.out -->  Total Entropy: 222.570811371 cal/mol.K Original Entropy: 238.511 cal/mol.K
+q156.run.7-2.27.last.inp.out -->  Total Entropy: 152.216633192 cal/mol.K Original Entropy: 190.541 cal/mol.K
