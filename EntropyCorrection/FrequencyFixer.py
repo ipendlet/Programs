@@ -236,10 +236,7 @@ def iso(file1):
   else: return "False"
 
 #Reads in .out files and relays to other scripts, formats output
-def config(dir):
- for file in os.listdir(dir): 
-  if file.endswith(".out"):
-   freqfile=(os.path.join(dir, file))
+def config(freqfile, file):
    outfile=open('frequency_corrected.txt', "a")
    outfile2=open('frequency_SI_values.txt', "a")
    CheckIso=iso(freqfile)
@@ -265,4 +262,19 @@ def config(dir):
     np.savetxt(outfile2, l, fmt='%.3f')
     outfile2.write('\n')
             
-config(directory)
+def failureCheck(dir):
+ for file in os.listdir(dir): 
+  if file.endswith(".out"):
+   freqfile=(os.path.join(dir, file))
+   outfile=open('frequency_corrected.txt', "a")
+   with open(freqfile, 'r') as a:
+    lc=a.read()
+    if  "Thank you very much for using Q-Chem.  Have a nice day." in lc:
+     config(freqfile, file)
+    else: outfile.write('%s : Job Failed to Complete - No Data \n' %file)
+     
+
+
+
+
+failureCheck(directory)
