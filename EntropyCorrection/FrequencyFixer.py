@@ -256,6 +256,7 @@ def config(freqfile, file):
    if CheckIso=="False":
     frequencyarray=FreqArray(freqfile) 
     (a,b,l,k)=FixArray(frequencyarray) 
+    c = str(WkArray(b))
     OutputConfigure1(freqfile, file, outfile, c)
     outfile2.write(file)
     outfile2.write('\n')
