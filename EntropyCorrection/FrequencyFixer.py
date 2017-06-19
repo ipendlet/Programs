@@ -22,7 +22,7 @@
 # USER INPUT VARIABLES # 
 Freq = 50.0   #### Set the minimum wavenumber cutoff *frequency cutoff*
 Temp = 273.15 #### Temperature in K for the entropy calculation - should match isotopes temp in qchem
-imagfreq = 1  #### For freq calculations on TSs this will set the number of imaginary frequencies to leave in file
+imagfreq = 20  #### For freq calculations on TSs this will set the number of imaginary frequencies to leave in file
 
 ########################################################################################
 ##module list###
@@ -66,9 +66,9 @@ def FreqArray(file1):
 
 def OutputConfigure1(file1, fname, out, c):
  with open(file1, 'r') as searchfile:
+  x = []
   for linenum, line in enumerate(searchfile, 1):
 # if "Vibman isotope loop:     2" in line: 
-   x = []
 #  for line in searchfile:
    if "Translational Entropy:" in line:
     TE_s=re.findall("[-+]?\d+[\.]?\d*", line)
