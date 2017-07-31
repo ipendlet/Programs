@@ -20,8 +20,8 @@
 
 ########################################################################################
 # USER INPUT VARIABLES # 
-Freq = 50.0   #### Set the minimum wavenumber cutoff *frequency cutoff*
-Temp = 273.15 #### Temperature in K for the entropy calculation - should match isotopes temp in qchem
+Freq = 50   #### Set the minimum wavenumber cutoff *frequency cutoff*
+Temp = 333.15 #### Temperature in K for the entropy calculation - should match isotopes temp in qchem
 imagfreq = 20  #### For freq calculations on TSs this will set the number of imaginary frequencies to leave in file
 
 ########################################################################################
@@ -50,8 +50,7 @@ C_ug=1.9872036 #gas constant
 # https://www.q-chem.com/qchem-website/manual/qchem43_manual/sect0066.html (Isotopes 
 # section of qchem) 
 ########################################################################################
-#### Section for default qchem frequency calculations (No ISOTOPES section) ############
-#Get frequencies from .out file into a numpy array
+#### Section for default qchem frequency calculations (No ISOTOPES section) ############ #Get frequencies from .out file into a numpy array
 def FreqArray(file1):
  with open(file1, 'r') as searchfile:
   x=[]
@@ -77,6 +76,7 @@ def OutputConfigure1(file1, fname, out, c):
      x.append(item2)
     out.write('%s -->' %fname)
 #    out.write(" Vib. Entropy: %s" % c)  ## prints calculated vibration entropy
+#    print (" Vib. Entropy: %s" % c)  ## prints calculated vibration entropy
     out.write(' ')
 #    out.write('%s ' % item2) ## Enable to print translational entropy to output file
    if "Rotational Entropy:" in line:
@@ -122,6 +122,22 @@ def FreqArray2(file1):
     array=np.asarray(x)
     return array
 
+def MoldenArray2(file1):
+ with open(file1, 'r') as searchfile:
+  x=[]
+  for linenum, line in enumerate(searchfile, 1):
+   if 'MOLDEN-FORMATTED INPUT FILE FOLLOWS' in line:
+    for linenum, line in enumerate(searchfile, 1):
+     if "FREQ" in line:
+      for line in searchfile:
+       if line.strip() == '[FR-COORD]':
+        break
+       else:
+        item2=float(line)
+        x.append(item2)
+    array=np.asarray(x)
+    return array
+
 def OutputConfigure2(file1, fname, out, c):
  with open(file1, 'r') as searchfile:
   for linenum, line in enumerate(searchfile, 1):
@@ -135,6 +151,8 @@ def OutputConfigure2(file1, fname, out, c):
        x.append(item2)
       out.write('%s -->' %fname)
 #      out.write(" Vib. Entropy: %s" % c)  ## Prints calculated vibration entropy
+#      print file1
+#      print (" Vib. Entropy: %s" % c)  ## Prints calculated vibration entropy
       out.write(' ')
 #      out.write(item2) ## Enable to print translational entropy to output file
      if "Rotational Entropy:" in line:
@@ -235,14 +253,26 @@ def iso(file1):
    return "True"
   else: return "False"
 
+def molden(file1):
+ with open(file1, 'r') as readfile:
+  lc=readfile.read()
+  s='molden_format true'
+  if re.search(s, lc, re.IGNORECASE):
+   return 'True'
+  else: return "False"
+
 #Reads in .out files and relays to other scripts, formats output
 def config(freqfile, file):
    outfile=open('frequency_corrected.txt', "a")
    outfile2=open('frequency_SI_values.txt', "a")
    CheckIso=iso(freqfile)
    if CheckIso=="True":
-    FreqObjArray=FreqArray2(freqfile) 
-    (a,b,l,k)=FixArray(FreqObjArray) 
+    CheckMolden=molden(freqfile)
+#    if CheckMolden=='True':
+#     FreqObjArray2=MoldenArray2(freqfile) 
+#    else: FreqObjArray2=FreqArray2(freqfile) 
+    FreqObjArray2=FreqArray2(freqfile) 
+    (a,b,l,k)=FixArray(FreqObjArray2) 
 # a, original frequency array
 # b, corrected frequency array
 # l, ONLY replaced values output in two column format, ########## need to have this output ########
@@ -254,8 +284,12 @@ def config(freqfile, file):
     np.savetxt(outfile2, l, fmt='%.3f')
     outfile2.write('\n')
    if CheckIso=="False":
-    frequencyarray=FreqArray(freqfile) 
-    (a,b,l,k)=FixArray(frequencyarray) 
+    CheckMolden=molden(freqfile)
+#    if CheckMolden=='True':
+#     FreqObjArray=MoldenArray2(freqfile) 
+#    else: FreqObjArray=FreqArray(freqfile) 
+    FreqObjArray=FreqArray(freqfile) 
+    (a,b,l,k)=FixArray(FreqObjArray) 
     c = str(WkArray(b))
     OutputConfigure1(freqfile, file, outfile, c)
     outfile2.write(file)
