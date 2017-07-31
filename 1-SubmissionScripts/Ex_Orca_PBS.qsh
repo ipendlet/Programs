@@ -1,0 +1,29 @@
+#PBS -t 1-2
+#PBS -l nodes=1:ppn=2 -l walltime=150:00:00
+#PBS -e /export/zimmerman/ipendlet/4-CobaltChemistry/4_HighLevelSinglePoint_H+/1_Full_H_B3LYP_LANL2DZ/wB97X-D_SolventCalc_ORCA/error.e
+#PBS -o /export/zimmerman/ipendlet/4-CobaltChemistry/4_HighLevelSinglePoint_H+/1_Full_H_B3LYP_LANL2DZ/wB97X-D_SolventCalc_ORCA/error.o
+#PBS -q zimmerman -N minHwbSMD.qsh
+
+
+ID=`printf "%0*d\n" 4 ${PBS_ARRAYID}`
+cd $PBS_O_WORKDIR
+
+name=`ls q$ID.*.inp`
+
+module unload Openmpi
+shtcut="/export/applications"
+
+
+export LD_LIBRARY_PATH=/export/apps/Intel/composer_xe_2013.4.183/compiler/lib/intel64:/export/zimmerman/khyungju/OpenMPI/2.0.2/lib:$LD_LIBRARY_PATH
+export PATH=//export/zimmerman/khyungju/OpenMPI/2.0.2/bin:$PATH
+
+cp $name $PBSTMPDIR
+
+cd $PBSTMPDIR
+/export/zimmerman/khyungju/orca_4_0_0_2_linux_x86-64/orca $name > $PBS_O_WORKDIR/$name.out
+
+wait
+
+time
+
+
